@@ -9,10 +9,7 @@ function App() {
       <header>
         Navbar
       </header>
-      <section>
-        <div className="side-bar"></div>
-        <Main />
-      </section>
+      <Main />
     </div>
   );
 }

@@ -3,6 +3,9 @@ import React from 'react';
 import Vegetables from '../data/Vegetables'
 import Order from '../data/order.Vegetables'
 import Item from './Item';
+import Sidebar from "./Sidebar";
+import products from '../data/products';
+
 
 export default function Main(props) {
 
@@ -11,7 +14,8 @@ export default function Main(props) {
   });
 
   return (
-    <div className="main">
+    <div className="main  container-fluid">
+      <Sidebar products={products} className="sidebar" />
       <div className="items">
         {
           items.map(item => {
