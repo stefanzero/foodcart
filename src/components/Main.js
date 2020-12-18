@@ -20,7 +20,7 @@ export default function Main(props) {
         {
           items.map(item => {
             return (
-              <Item item={item} />
+              <Item item={item} key={item.product_id}/>
             )
           })
         }
