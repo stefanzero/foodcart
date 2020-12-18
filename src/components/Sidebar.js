@@ -40,7 +40,7 @@ export default function Sidebar({products}) {
                     {
                       aisle_ids.map(aisle_id => {
                         const aisle = aisles[aisle_id]
-                        return (
+                        return aisle.order.length > 0 && (
                           <li key={aisle_id} className="aisle-item">
                             <a href={`/${aisle.href}`}>
                               {aisle.name}

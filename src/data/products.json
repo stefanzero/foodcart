@@ -2041,7 +2041,8 @@
                 "964": {
                     "id": "964",
                     "name": "Candy",
-                    "href": "costco/departments/107/aisles/964"
+                    "href": "costco/departments/107/aisles/964",
+                    "order": []
                 },
                 "690": {
                     "id": "690",
