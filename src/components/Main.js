@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,43 +6,27 @@ import {
   Link
 } from "react-router-dom";
 
-import Vegetables from '../data/Vegetables'
-import Order from '../data/order.Vegetables'
-import Item from './Item';
+import Items from '../data/items';
 import Sidebar from "./Sidebar";
 import products from '../data/products';
 import Departments from "./Departments";
-
+import ItemModal from "./ItemModal";
 
 function Main(props) {
 
-  const items = Order.map(product_id => {
-    return Vegetables[product_id]
-  });
-
   return (
     <Router>
-      <div className="main  container-fluid">
-        <Sidebar products={products} className="sidebar" />
-        {/*<Departments products={products}/>*/}
-        <Routes>
-          <Route path="*" element={
-            <Departments products={products}/>
-          } />
-        </Routes>
-        {/*<div className="items">*/}
-        {/*  {*/}
-        {/*    items.map(item => {*/}
-        {/*      return (*/}
-        {/*        <Item item={item} key={item.product_id}/>*/}
-        {/*      )*/}
-        {/*    })*/}
-        {/*  }*/}
-        {/*</div>*/}
-      </div>
+      <Routes>
+        <Route path="/costco/departments/*" element={
+          <div className="main  container-fluid">
+              <Sidebar products={products} className="sidebar" />
+              <Departments products={products}/>
+              <ItemModal items={Items}/>
+          </div>
+        } />
+      </Routes>
     </Router>
   )
-
 }
 
 export default Main;

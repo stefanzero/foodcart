@@ -12,7 +12,7 @@ export default function Departments(props) {
    */
   // const department = products.departments['120'];
   const department = products.departments[dept_id];
-  const aisle_match = href.match(/aisles\/(\d+)($|\/)/);
+  const aisle_match = href.match(/aisles\/(\d+)($|\/|\?)/);
   // choose the first aisle that has items as the default
   // const aisle0 = department.order[0];
   if (!department.order) {

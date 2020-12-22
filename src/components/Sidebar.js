@@ -1,14 +1,22 @@
 import React, {useState} from 'react';
 import { NavLink, Collapse } from 'react-bootstrap';
 
-export default function Sidebar({products}) {
+export default function Sidebar({products, dept_id, a_id}) {
   let [open, setOpen] = useState({})
-  const href = window.location.href
-  // const href = '/costco/departments/120/';
-  const dept_match = href.match(/departments\/(\d+)($|\/)/)
-  const dept_id = dept_match ? dept_match[1] : '';
-  const aisle_match = href.match(/aisles\/(\d+)($|\/)/)
-  const a_id = aisle_match ? aisle_match[1] : '';
+  /*
+   * If dept_id or a_id (aisle_id) is not in the props, then
+   * get it from the URL
+   * ex. URL = '/costco/departments/120/aisles/676';
+   */
+  const href = window.location.href;
+  if (! dept_id) {
+    const dept_match = href.match(/departments\/(\d+)($|\/)/);
+    dept_id = dept_match ? dept_match[1] : '';
+  }
+  if (! a_id) {
+    const aisle_match = href.match(/aisles\/(\d+)($|\/)/);
+    a_id = aisle_match ? aisle_match[1] : '';
+  }
   let isOpen = {};
   if (a_id && dept_id) {
     const department = products.departments[dept_id];
@@ -20,7 +28,7 @@ export default function Sidebar({products}) {
 
   const expand = (department_id) => {
     setOpen({[department_id]: !open[department_id]})
-  }
+  };
 
   return (
     <ul className="sidebar-list">
