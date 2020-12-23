@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import ModalSection from "./ModalSection";
 const queryString = require('query-string');
 
 export default function ItemModal(props) {
@@ -32,6 +33,10 @@ export default function ItemModal(props) {
         </Modal.Footer>
       </Modal>
     )
+  }
+
+  if (!item.sections) {
+    item.sections = []
   }
 
   return (
@@ -73,7 +78,15 @@ export default function ItemModal(props) {
             </div>
           </div>
         </div>
-
+        <div className="modal-sections">
+          {
+            item.sections.map((section, i) => {
+              return (
+                <ModalSection key={i} section={section} />
+              )
+            })
+          }
+        </div>
       </Modal.Body>
       <Modal.Footer>
       </Modal.Footer>
