@@ -14,11 +14,12 @@ export default function ItemModal(props) {
   const baseHref = href.replace(/\?.*/, '');
   const handleClose = () => {
     window.location.href = baseHref;
-  }
+  };
   const show = !!parsed.item;
+  const { items } = props;
   let item;
-  if (props.items && parsed.item) {
-    item = props.items[parsed.item]
+  if (items && parsed.item) {
+    item = items[parsed.item];
     console.log(item);
   }
 
@@ -28,7 +29,7 @@ export default function ItemModal(props) {
         <Modal.Header closeButton>
           <Modal.Title>Product Not Found</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body></Modal.Body>
         <Modal.Footer>
         </Modal.Footer>
       </Modal>
@@ -82,7 +83,7 @@ export default function ItemModal(props) {
           {
             item.sections.map((section, i) => {
               return (
-                <ModalSection key={i} section={section} />
+                <ModalSection key={i} section={section} items={items} />
               )
             })
           }

@@ -7,7 +7,7 @@ export default function Item({item}) {
   // const itemLink = `/items/item_${item.product_id}`;
   const itemLink = `?item=${item.product_id}`;
   return (
-    <Card className="item" key={item.product_id}>
+    <Card className="item" key={item.product_id} data-product_id={item.product_id}>
       <a href={itemLink} className="item-img">
         <img src={item.src} alt={item.name} />
       </a>
