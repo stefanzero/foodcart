@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { forwardRef, useRef } from 'react';
 import Item from './Item';
 
-export default function ModalSection(props) {
+export default forwardRef((props, ref) => {
+
+  ref.section = useRef();
+  ref.leftButton = useRef();
+  ref.rightButton = useRef();
 
   const { section, items } = props;
   if (!section || !section.items || !section.items.length ) {
@@ -25,9 +29,9 @@ export default function ModalSection(props) {
   }
 
   return (
-    <section>
+    <section className="modal-section-container">
       <h5>{section.name}</h5>
-      <div className="modal-section">
+      <div className="modal-section" ref={ref.section}>
         {
           validItems.map(item => {
             return (
@@ -36,6 +40,13 @@ export default function ModalSection(props) {
           })
         }
       </div>
+      <div className="left-button" role="button" ref={ref.leftButton}>
+        <span className="helper"></span>
+        <span className="fa fa-chevron-left"></span>
+      </div>
+      <div className="right-button" role="button" ref={ref.rightButton}>
+        <span className="fa fa-chevron-right"></span>
+      </div>
     </section>
   )
-}
+})

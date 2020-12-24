@@ -1,14 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import ModalSection from "./ModalSection";
 const queryString = require('query-string');
 
 export default function ItemModal(props) {
 
-  // const prevHref = props.prevHref || '/costco/departments/120';
-  // const handleClose = () => {
-  //   window.location.href = prevHref;
-  // }
   const href = window.location.href;
   const parsed = queryString.parse(window.location.search)
   const baseHref = href.replace(/\?.*/, '');
@@ -23,6 +19,56 @@ export default function ItemModal(props) {
     console.log(item);
   }
 
+  const sections = item && item.sections || [];
+
+  /*
+  3 refs are needed from each <ModalSection>, so the left and right Buttons will only
+  be displayed when the ModalSection content can be scrolled
+   */
+  const sectionRefsArray = sections.map(() => {
+    return {
+      section: null,
+      leftButton: null,
+      rightButton: null
+    }
+  });
+
+  useEffect(() => {
+    console.log('ItemModal rendered');
+    if (sectionRefsArray) {
+      sectionRefsArray.forEach(sectionRef => {
+        const {section, leftButton, rightButton} = sectionRef;
+        if (section && leftButton && rightButton) {
+          const sectionEl = section.current;
+          const leftButtonEl = leftButton.current;
+          const rightButtonEl = rightButton.current;
+          if (sectionEl.scrollLeft > 0) {
+            leftButtonEl.classList.remove('hide')
+          } else {
+            leftButtonEl.classList.add('hide')
+          }
+          if ((sectionEl.scrollLeft + sectionEl.offsetWidth) < sectionEl.scrollWidth) {
+            rightButtonEl.classList.remove('hide');
+          } else {
+            rightButtonEl.classList.add('hide');
+          }
+          sectionEl.addEventListener('scroll', (e) => {
+            if (sectionEl.scrollLeft > 0) {
+              leftButtonEl.classList.remove('hide')
+            } else {
+              leftButtonEl.classList.add('hide')
+            }
+            if ((sectionEl.scrollLeft + sectionEl.offsetWidth) < sectionEl.scrollWidth) {
+              rightButtonEl.classList.remove('hide');
+            } else {
+              rightButtonEl.classList.add('hide');
+            }
+          })
+        }
+      })
+    }
+  });
+
   if (!item) {
     return (
       <Modal show={show} onHide={handleClose} className="item-modal">
@@ -34,10 +80,6 @@ export default function ItemModal(props) {
         </Modal.Footer>
       </Modal>
     )
-  }
-
-  if (!item.sections) {
-    item.sections = []
   }
 
   return (
@@ -81,9 +123,9 @@ export default function ItemModal(props) {
         </div>
         <div className="modal-sections">
           {
-            item.sections.map((section, i) => {
+            sections.map((section, i) => {
               return (
-                <ModalSection key={i} section={section} items={items} />
+                <ModalSection key={i} section={section} items={items} ref={sectionRefsArray[i]}/>
               )
             })
           }
