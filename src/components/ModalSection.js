@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef, useEffect } from 'react';
 import Item from './Item';
 
 export default forwardRef((props, ref) => {
@@ -6,6 +6,18 @@ export default forwardRef((props, ref) => {
   ref.section = useRef();
   ref.leftButton = useRef();
   ref.rightButton = useRef();
+
+  useEffect(() => {
+    const { section, leftButton, rightButton} = ref;
+    if (section && leftButton) {
+      leftButton.current.addEventListener('click', () => {
+        section.current.scrollLeft -= 300;
+      })
+      rightButton.current.addEventListener('click', () => {
+        section.current.scrollLeft += 300;
+      })
+    }
+  });
 
   const { section, items } = props;
   if (!section || !section.items || !section.items.length ) {

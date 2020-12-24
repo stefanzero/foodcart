@@ -42,16 +42,25 @@ export default function ItemModal(props) {
           const sectionEl = section.current;
           const leftButtonEl = leftButton.current;
           const rightButtonEl = rightButton.current;
+          /*
+          Only display leftButton if section is scrolled to the right
+           */
           if (sectionEl.scrollLeft > 0) {
             leftButtonEl.classList.remove('hide')
           } else {
             leftButtonEl.classList.add('hide')
           }
+          /*
+          Only display rightButton if section can be scrolled to the right
+           */
           if ((sectionEl.scrollLeft + sectionEl.offsetWidth) < sectionEl.scrollWidth) {
             rightButtonEl.classList.remove('hide');
           } else {
             rightButtonEl.classList.add('hide');
           }
+          /*
+           After scroll event, check scrollability and set button display classes
+           */
           sectionEl.addEventListener('scroll', (e) => {
             if (sectionEl.scrollLeft > 0) {
               leftButtonEl.classList.remove('hide')
