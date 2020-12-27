@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Modal } from 'react-bootstrap';
 import ModalSection from "./ModalSection";
 const queryString = require('query-string');
 
@@ -13,13 +13,8 @@ export default function ItemModal(props) {
   };
   const show = !!parsed.item;
   const { items } = props;
-  let item;
-  if (items && parsed.item) {
-    item = items[parsed.item];
-    console.log(item);
-  }
-
-  const sections = item && item.sections || [];
+  const item = (items && parsed.item) ? items[parsed.item] : null;
+  const sections = (item && item.sections) ? item.sections : [];
 
   /*
   3 refs are needed from each <ModalSection>, so the left and right Buttons will only
@@ -34,7 +29,6 @@ export default function ItemModal(props) {
   });
 
   useEffect(() => {
-    console.log('ItemModal rendered');
     if (sectionRefsArray) {
       sectionRefsArray.forEach(sectionRef => {
         const {section, leftButton, rightButton} = sectionRef;
@@ -45,34 +39,44 @@ export default function ItemModal(props) {
           /*
           Only display leftButton if section is scrolled to the right
            */
-          if (sectionEl.scrollLeft > 0) {
-            leftButtonEl.classList.remove('hide')
-          } else {
-            leftButtonEl.classList.add('hide')
-          }
-          /*
-          Only display rightButton if section can be scrolled to the right
-           */
-          if ((sectionEl.scrollLeft + sectionEl.offsetWidth) < sectionEl.scrollWidth) {
-            rightButtonEl.classList.remove('hide');
-          } else {
-            rightButtonEl.classList.add('hide');
-          }
-          /*
-           After scroll event, check scrollability and set button display classes
-           */
-          sectionEl.addEventListener('scroll', (e) => {
+          if (sectionEl && leftButtonEl) {
             if (sectionEl.scrollLeft > 0) {
               leftButtonEl.classList.remove('hide')
             } else {
               leftButtonEl.classList.add('hide')
             }
+          }
+          /*
+          Only display rightButton if section can be scrolled to the right
+           */
+          if (sectionEl && rightButtonEl) {
             if ((sectionEl.scrollLeft + sectionEl.offsetWidth) < sectionEl.scrollWidth) {
               rightButtonEl.classList.remove('hide');
             } else {
               rightButtonEl.classList.add('hide');
             }
-          })
+          }
+          /*
+           After scroll event, check scrollability and set button display classes
+           */
+          if (sectionEl) {
+            sectionEl.addEventListener('scroll', (e) => {
+              if (leftButtonEl) {
+                if (sectionEl.scrollLeft > 0) {
+                  leftButtonEl.classList.remove('hide')
+                } else {
+                  leftButtonEl.classList.add('hide')
+                }
+              }
+              if (rightButtonEl) {
+                if ((sectionEl.scrollLeft + sectionEl.offsetWidth) < sectionEl.scrollWidth) {
+                  rightButtonEl.classList.remove('hide');
+                } else {
+                  rightButtonEl.classList.add('hide');
+                }
+              }
+            })
+          }
         }
       })
     }
@@ -115,7 +119,7 @@ export default function ItemModal(props) {
         <div className="modal-row1">
           <div className="square square1">
             <div className="modal-img">
-              <img src={item.src} />
+              <img src={item.src} alt={item.name}/>
             </div>
           </div>
           <div className="square square2">

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { NavLink, Collapse } from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap';
 
 export default function Sidebar({products, dept_id, a_id}) {
   let [open, setOpen] = useState({})

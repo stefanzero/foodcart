@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
 } from "react-router-dom";
 
 import Items from '../data/items';
@@ -13,6 +12,11 @@ import Departments from "./Departments";
 import ItemModal from "./ItemModal";
 
 function Main(props) {
+
+  const match = window.location.pathname.match(/^\/costco\/departments\//);
+  if (!match) {
+    window.location.href = '/costco/departments/120/';
+  }
 
   return (
     <Router>

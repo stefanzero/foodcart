@@ -9,10 +9,12 @@ export default forwardRef((props, ref) => {
 
   useEffect(() => {
     const { section, leftButton, rightButton} = ref;
-    if (section && leftButton) {
+    if (section && leftButton && leftButton.current) {
       leftButton.current.addEventListener('click', () => {
         section.current.scrollLeft -= 300;
       })
+    }
+    if (section && rightButton && rightButton.current) {
       rightButton.current.addEventListener('click', () => {
         section.current.scrollLeft += 300;
       })
