@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import ModalSection from "./ModalSection";
 const queryString = require('query-string');
 
 export default function ItemModal(props) {
 
-  const href = window.location.href;
-  const parsed = queryString.parse(window.location.search)
-  const baseHref = href.replace(/\?.*/, '');
+  const navigate = useNavigate();
+  const parsed = queryString.parse(window.location.search);
   const handleClose = () => {
-    window.location.href = baseHref;
+    navigate(window.location.pathname);
   };
   const show = !!parsed.item;
   const { items } = props;
   const item = (items && parsed.item) ? items[parsed.item] : null;
   const sections = (item && item.sections) ? item.sections : [];
+  // console.log(`ItemModal: ${item}`);
 
   /*
   3 refs are needed from each <ModalSection>, so the left and right Buttons will only

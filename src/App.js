@@ -6,14 +6,14 @@ import { StateProvider} from "./context/store";
 
 function App() {
   return (
-    <StateProvider>
-      <div className="App">
+    <div className="App">
+      <StateProvider>
         <header>
           Navbar
         </header>
         <Main />
-      </div>
-    </StateProvider>
+      </StateProvider>
+    </div>
   );
 }
 

@@ -21,13 +21,22 @@ function Main(props) {
   return (
     <Router>
       <Routes>
-        <Route path="/costco/departments/*" element={
+        <Route path="/costco/departments/:department_id" element={
           <div className="main  container-fluid">
               <Sidebar products={products} className="sidebar" />
               <Departments products={products}/>
               <ItemModal items={Items}/>
           </div>
-        } />
+        }>
+          <Route path="aisles/*" element={
+            <div className="main  container-fluid">
+              <Sidebar products={products} className="sidebar" />
+              <Departments products={products}/>
+              <ItemModal items={Items}/>
+            </div>
+          }>
+          </Route>
+        </Route>
       </Routes>
     </Router>
   )

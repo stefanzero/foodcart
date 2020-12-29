@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
 
 export default function Sidebar({products, dept_id, a_id}) {
@@ -8,13 +9,13 @@ export default function Sidebar({products, dept_id, a_id}) {
    * get it from the URL
    * ex. URL = '/costco/departments/120/aisles/676';
    */
-  const href = window.location.href;
+  const location = useLocation();
   if (! dept_id) {
-    const dept_match = href.match(/departments\/(\d+)($|\/)/);
+    const dept_match = location.pathname.match(/departments\/(\d+)($|\/)/);
     dept_id = dept_match ? dept_match[1] : '';
   }
   if (! a_id) {
-    const aisle_match = href.match(/aisles\/(\d+)($|\/)/);
+    const aisle_match = location.pathname.match(/aisles\/(\d+)($|\/)/);
     a_id = aisle_match ? aisle_match[1] : '';
   }
   let isOpen = {};
@@ -42,7 +43,7 @@ export default function Sidebar({products, dept_id, a_id}) {
           return (
             <li key={department_id} className="sidebar-item">
               <div>
-                <a href={`/${department.href}`}>{department.name}</a>
+                <Link to={`/${department.href}`}>{department.name}</Link>
                 <Collapse in={expanded}>
                   <ul className="aisle-items">
                     {
@@ -50,9 +51,12 @@ export default function Sidebar({products, dept_id, a_id}) {
                         const aisle = aisles[aisle_id]
                         return aisle.order.length > 0 && (
                           <li key={aisle_id} className="aisle-item">
-                            <a href={`/${aisle.href}`}>
-                              {aisle.name}
-                            </a>
+                            <Link to={`/${aisle.href}`}>
+                                {aisle.name}
+                            </Link>
+                            {/*<a href={`/${aisle.href}`}>*/}
+                            {/*  {aisle.name}*/}
+                            {/*</a>*/}
                           </li>
                         )
                       })

@@ -1,4 +1,4 @@
-import React, {createContext, useReducer, useCallback} from 'react';
+import React, {createContext, useReducer, useCallback, useContext} from 'react';
 
 /*
  * cart and products will have other properties,
@@ -22,12 +22,13 @@ const { Provider } = store;
 
 
 const StateProvider = ( { children } ) => {
+
   const memoizedReducer = useCallback((state, action) => {
     switch (action.type) {
       case 'addToCart':
         // do something with the action
         const {product_id, quantity} = action.payload;
-        console.log(`reducer: ${product_id}`);
+        // console.log(`reducer: ${product_id}`);
         const newState = {...state};
         const {items} = newState.cart;
         if (!items[product_id]) {
@@ -37,31 +38,19 @@ const StateProvider = ( { children } ) => {
         }
         // New quantity cannot be less than zero
         items[product_id] = Math.max(items[product_id], 0);
-        console.log(`new quantity: ${items[product_id]}`);
+        // console.log(`new quantity: ${items[product_id]}`);
         return newState;
       default:
         throw new Error();
     }
     ;
-  }, initialState);
+  }, []);
 
   const reducer = (state, action) => {
     switch (action.type) {
       case 'addToCart':
-        // do something with the action
         const {product_id, quantity} = action.payload;
         console.log(`reducer: ${product_id}`);
-        /*
-        const newState = {
-          ...state,
-          {
-            cart: {
-              ...state.cart,
-              items: { [product_id]: quantity}
-            }
-          }
-        };
-         */
         const newState = {...state};
         const {items} = newState.cart;
         if (!items[product_id]) {
@@ -71,12 +60,11 @@ const StateProvider = ( { children } ) => {
         }
         // New quantity cannot be less than zero
         items[product_id] = Math.max(items[product_id], 0);
-        console.log(`new quantity: ${items[product_id]}`);
+        // console.log(`new quantity: ${items[product_id]}`);
         return newState;
       default:
         throw new Error();
-    }
-    ;
+    };
   };
 
   // const [state, dispatch] = useReducer(reducer, initialState);
