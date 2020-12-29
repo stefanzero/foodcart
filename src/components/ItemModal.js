@@ -103,14 +103,14 @@ export default function ItemModal(props) {
         {item.breadcrumbs.map((bc, i) => {
           const sep = i < item.breadcrumbs.length - 1 ? ' > ' : '';
           return (
-            <>
+            <span key={i}>
               <span>
                 <a href={bc.href} key={i}>{bc.text}</a>
               </span>
               <span>
                 {sep}
               </span>
-            </>
+            </span>
           )
         })}
         </p>

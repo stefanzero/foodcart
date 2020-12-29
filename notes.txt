@@ -1,0 +1,66 @@
+# TODO: change anchor tags to <Link> components
+
+# Start with simple cart and use context and reducer hooks
+
+State Management
+
+cookie: user_id
+
+# users
+{
+  id:
+  email,
+  first_name,
+  last_name,
+  address1,
+  address2,
+  city,
+  state,
+  zip
+}
+
+# password
+{
+  user_id,
+  email,
+  password,
+}
+
+# current cart
+# products is an object for a denormalized cart
+cart: {
+  id,
+  delivery-date,
+  products: {
+    product_id,
+    quantity,
+    date_added,
+    unit_price,
+    product_subtotal
+  },
+  total
+}
+
+
+# linking table for normalized cart
+# cart-products
+
+# one to many (cart history)
+user-cart: {
+  user_id,
+  cart_id
+}
+
+# previous carts
+cart-history: {
+  id: cart,
+  order: []
+}
+
+favorites: {
+  product-id,
+  date-added
+}
+
+
+
