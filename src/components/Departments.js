@@ -39,7 +39,7 @@ export default function Departments(props) {
   const aisle_id = aisle_match ? `${aisle_match[1]}` : `${aisle0}`;
   const aisle = department.aisles[aisle_id];
   /*
-   * There are occassional duplicate items in aisle.order
+   * There are occasional duplicate items in aisle.order
    */
   const uniqueItems = [...new Set(aisle.order)];
   const items = uniqueItems.map(id => {

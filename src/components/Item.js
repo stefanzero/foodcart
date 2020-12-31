@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import { Link, useLocation } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { store } from '../context/store';
+import Quantity from './Quantity';
 
 export default function Item({item}) {
   const location = useLocation();
@@ -11,6 +12,10 @@ export default function Item({item}) {
 
   const addToCart = (quantity) => {
     // console.log(`addToCart: ${product_id}`);
+    if (cartQuantity && quantityRef.current) {
+      quantityRef.current.classList.remove('hide');
+      return;
+    }
     dispatch({
       type: 'addToCart',
       payload: {
@@ -19,6 +24,32 @@ export default function Item({item}) {
       }
     })
   };
+
+  /*
+  const quantityRef = {
+    container: null,
+    minus: null,
+    quantity: null,
+    plus: null
+  };
+  */
+  const quantityRef = useRef();
+
+  useEffect(() => {
+    if (quantityRef && quantityRef.current) {
+      const quantityContainer = quantityRef.current;
+      if (!quantityContainer.classList.contains('hide')) {
+        quantityContainer.focus();
+      }
+      quantityRef.current.addEventListener('blur', (evt) => {
+        // <Quantity> will be removed when minus is clicked until zero
+        if (quantityRef.current) {
+          quantityRef.current.classList.add('hide');
+        }
+      })
+    }
+
+  });
 
   // const itemLink = `/items/item_${item.product_id}`;
   const { product_id } = item;
@@ -39,6 +70,7 @@ export default function Item({item}) {
       <button className="item-button" onClick={addToCart}>
         <span className="button-span">{buttonSpan}</span>
       </button>
+      { cartQuantity && <Quantity item={item} ref={quantityRef} />}
     </Card>
   )
 }

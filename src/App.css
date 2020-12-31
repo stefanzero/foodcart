@@ -105,7 +105,8 @@ button.item-button {
   align-items: center;
   justify-content: space-around;
   right: 0.8em;
-  bottom: 3.5em;
+  /*bottom: 3.5em;*/
+  bottom: 30%;
   font-size: 2em;
   width: 1.5em;
   height: 1.5em;
@@ -122,6 +123,47 @@ button.item-button:hover {
 .button-span {
   font-weight: 300;
   margin-top: -0.2em;
+}
+
+.quantity-container {
+  position: absolute;
+  background-color: #ffffff;
+  font-size: 2em;
+  bottom: 30%;
+  display: grid;
+  grid-template-columns: 3fr 4fr 3fr;
+  width: 90%;
+  /*height: 3em;*/
+  margin-left: 5%;
+}
+
+.minus, .plus {
+  color: #008B00;
+  display: flex;
+  justify-content: space-around;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 0.7em;
+}
+
+.minus img {
+  width: 30%;
+  margin: auto;
+}
+
+.plus {
+  border: 1px solid dodgerblue;
+  border-radius: 2px;
+  background-color: #f9f9f9;
+}
+
+.quantity-container .minus, .quantity-container .quantity {
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  border-radius: 2px;
 }
 
 .department-button {
