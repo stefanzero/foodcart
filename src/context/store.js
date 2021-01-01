@@ -8,7 +8,8 @@ const initialState = {
   cart: {
     items: {
       // product_id: quantity
-    }
+    },
+    order: []
   },
   favorites: {
     items: {
@@ -28,9 +29,21 @@ const StateProvider = ( { children } ) => {
       case 'addToCart':
         // do something with the action
         const {product_id, quantity} = action.payload;
+        if (typeof quantity !== 'number') {
+          throw new Error('quantity must be a number')
+        }
         // console.log(`reducer: ${product_id}`);
-        const newState = {...state};
-        const {items} = newState.cart;
+        const newState = {
+          ...state,
+          cart: {
+            ...state.cart,
+            items: {
+              ...state.cart.items,
+            },
+            order: state.cart.order.slice()
+          }
+        };
+        const { items, order } = newState.cart;
         if (!items[product_id]) {
           items[product_id] = quantity;
         } else {
@@ -38,6 +51,12 @@ const StateProvider = ( { children } ) => {
         }
         // New quantity cannot be less than zero
         items[product_id] = Math.max(items[product_id], 0);
+        const newQuantity = items[product_id];
+        if (newQuantity === 0) {
+          newState.cart.order = order.filter(id => id !== product_id);
+        } else if (!order.includes(product_id)) {
+          order.push(product_id)
+        }
         // console.log(`new quantity: ${items[product_id]}`);
         return newState;
       default:

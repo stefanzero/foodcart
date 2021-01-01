@@ -12,6 +12,9 @@ export default function Item({item}) {
 
   const addToCart = (quantity) => {
     // console.log(`addToCart: ${product_id}`);
+    /*
+     * Display <Quantity> only after the number button is clicked
+     */
     if (cartQuantity && quantityRef.current) {
       quantityRef.current.classList.remove('hide');
       return;
@@ -35,21 +38,28 @@ export default function Item({item}) {
   */
   const quantityRef = useRef();
 
+  /*
+   * Hide the quantity component when
+   *   * focus is lost from the quantity component
+   *   * the window is scrolled
+   */
+  const hideComponent = (evt) => {
+    if (quantityRef.current && !quantityRef.current.classList.contains('hide')) {
+      quantityRef.current.classList.add('hide');
+    }
+  };
   useEffect(() => {
     if (quantityRef && quantityRef.current) {
       const quantityContainer = quantityRef.current;
+      /*
       if (!quantityContainer.classList.contains('hide')) {
         quantityContainer.focus();
       }
-      quantityRef.current.addEventListener('blur', (evt) => {
-        // <Quantity> will be removed when minus is clicked until zero
-        if (quantityRef.current) {
-          quantityRef.current.classList.add('hide');
-        }
-      })
+      */
+      quantityRef.current.addEventListener('blur', hideComponent);
+      document.addEventListener('scroll', hideComponent);
     }
-
-  });
+  }, document.removeEventListener('scroll', hideComponent));
 
   // const itemLink = `/items/item_${item.product_id}`;
   const { product_id } = item;
@@ -70,7 +80,7 @@ export default function Item({item}) {
       <button className="item-button" onClick={addToCart}>
         <span className="button-span">{buttonSpan}</span>
       </button>
-      { cartQuantity && <Quantity item={item} ref={quantityRef} />}
+      { cartQuantity ? <Quantity item={item} ref={quantityRef} /> : null}
     </Card>
   )
 }

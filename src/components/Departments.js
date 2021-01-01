@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Item from "./Item";
 
 export default function Departments(props) {
 
+  const itemsContainer = useRef();
+  /*
+   * After render, focus on container so <Quantity> is hidden
+   */
+  /*
+  useLayoutEffect( () => {
+    itemsContainer.current.focus();
+  });
+   */
   const products = props.products;
   // const href = window.location.href;
   const location = useLocation();
@@ -48,7 +57,7 @@ export default function Departments(props) {
 
   // console.log(`aisle: ${aisle.name}`);
   return (
-    <div className="items">
+    <div className="items" ref={itemsContainer}>
       {
         items.map(item => {
           // console.log(`item: ${item.name}`);
