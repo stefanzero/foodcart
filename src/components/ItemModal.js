@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import ModalSection from "./ModalSection";
 const queryString = require('query-string');
@@ -102,11 +102,12 @@ export default function ItemModal(props) {
         {/*<Modal.Title>Modal heading</Modal.Title>*/}
         <p>
         {item.breadcrumbs.map((bc, i) => {
+          const href = bc.href.startsWith('/') ? bc.href : `/${bc.href}`;
           const sep = i < item.breadcrumbs.length - 1 ? ' > ' : '';
           return (
             <span key={i}>
               <span>
-                <a href={bc.href} key={i}>{bc.text}</a>
+                <Link to={href} key={i}>{bc.text}</Link>
               </span>
               <span>
                 {sep}

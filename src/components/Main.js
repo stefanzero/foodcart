@@ -18,25 +18,18 @@ function Main(props) {
     window.location.href = '/costco/departments/120/';
   }
 
+  const mainContent = (
+    <div className="main container-fluid">
+      <Sidebar products={products} className="sidebar" />
+      <Departments products={products}/>
+      <ItemModal items={Items}/>
+    </div>
+  )
+
   return (
     <Router>
       <Routes>
-        <Route path="/costco/departments/:department_id" element={
-          <div className="main  container-fluid">
-              <Sidebar products={products} className="sidebar" />
-              <Departments products={products}/>
-              <ItemModal items={Items}/>
-          </div>
-        }>
-          <Route path="aisles/*" element={
-            <div className="main  container-fluid">
-              <Sidebar products={products} className="sidebar" />
-              <Departments products={products}/>
-              <ItemModal items={Items}/>
-            </div>
-          }>
-          </Route>
-        </Route>
+        <Route path="*" element={mainContent} />
       </Routes>
     </Router>
   )

@@ -11,15 +11,14 @@ export default function Header(props) {
   const totalItems = Object.values(cart.items).reduce((acc, next) => {
     return acc + next;
   }, 0);
-  const cartQuantity = totalItems ? totalItems : '';
 
   return (
     <header className="header">
       <span className="brand">foodcart</span>
       <button className="cart-button">
         Order
-        <img src="/images/green-cart-2.png" alt="shopping basket" />
-        <span className="cart-button-quantity">{cartQuantity}</span>
+        <img src="/images/green-cart.png" alt="shopping basket" />
+        <span className="cart-button-quantity">{totalItems}</span>
       </button>
     </header>
   )

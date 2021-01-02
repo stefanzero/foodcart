@@ -40,19 +40,23 @@ export default function Sidebar({products, dept_id, a_id}) {
           const aisle_ids = Object.keys(aisles);
           const expanded = open[department_id] || isOpen[department_id];
           const rotated = expanded ? 'rotate' : '';
+          const departmentClass = department_id === dept_id ? 'sidebar-active' : '';
           return (
             <li key={department_id} className="sidebar-item">
               <div>
-                <Link to={`/${department.href}`}>{department.name}</Link>
+                <Link to={`/${department.href}`}>
+                  <span className={departmentClass}>{department.name}</span>
+                </Link>
                 <Collapse in={expanded}>
                   <ul className="aisle-items">
                     {
                       aisle_ids.map(aisle_id => {
                         const aisle = aisles[aisle_id]
+                        const aisleClass = aisle_id === a_id ? 'sidebar-active' : '';
                         return aisle.order.length > 0 && (
                           <li key={aisle_id} className="aisle-item">
                             <Link to={`/${aisle.href}`}>
-                                {aisle.name}
+                              <span className={aisleClass}>{aisle.name}</span>
                             </Link>
                             {/*<a href={`/${aisle.href}`}>*/}
                             {/*  {aisle.name}*/}
