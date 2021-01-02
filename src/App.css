@@ -6,6 +6,47 @@ body {
   background-color: rgba(240, 240, 240, 0.2);
 }
 
+.header {
+  height: 2.5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #008B00;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  border-bottom: 2px solid rgba(64, 64, 64, 0.5);
+  margin-bottom: 1em;
+}
+
+.brand {
+  font-style: italic;
+  margin: 0 1em;
+}
+
+.cart-button {
+  background-color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 2.5em;
+  padding-left: 2em;
+  font-size: 1rem;
+  border-radius: 1em 1em;
+  flex-grow: 0;
+  margin-right: 2em;
+}
+
+.cart-button img {
+  margin-left: 1em;
+  width: 1.5em;
+}
+
+.cart-button-quantity {
+  margin-left: 1em;
+  padding-right: 2em;
+}
+
 .main {
   display: grid;
   grid-template-columns: 12em 1fr;

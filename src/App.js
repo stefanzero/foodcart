@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './App.css';
+import Header from "./components/Header";
 import Main from './components/Main';
 import { StateProvider} from "./context/store";
 
@@ -8,9 +9,7 @@ function App() {
   return (
     <div className="App">
       <StateProvider>
-        <header>
-          Navbar
-        </header>
+        <Header />
         <Main />
       </StateProvider>
     </div>
