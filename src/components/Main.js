@@ -6,10 +6,11 @@ import {
 } from "react-router-dom";
 
 import Items from '../data/items';
-import Sidebar from "./Sidebar";
+import Sidebar from './Sidebar';
 import products from '../data/products';
-import Departments from "./Departments";
-import ItemModal from "./ItemModal";
+import Departments from './Departments';
+import ItemModal from './ItemModal';
+import CartPanel from './CartPanel';
 
 function Main(props) {
 
@@ -23,6 +24,7 @@ function Main(props) {
       <Sidebar products={products} className="sidebar" />
       <Departments products={products}/>
       <ItemModal items={Items}/>
+      <CartPanel show={true} />
     </div>
   )
 

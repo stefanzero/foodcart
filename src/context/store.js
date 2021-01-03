@@ -15,6 +15,9 @@ const initialState = {
     items: {
       // product_id: quantity
     }
+  },
+  cartPanel: {
+    show: false
   }
 };
 
@@ -59,6 +62,14 @@ const StateProvider = ( { children } ) => {
         }
         // console.log(`new quantity: ${items[product_id]}`);
         return newState;
+      case 'toggleCartPanel':
+        return {
+          ...state,
+          cartPanel: {
+            ...state.cartPanel,
+            show: !state.cartPanel.show
+          }
+        };
       default:
         throw new Error();
     }
