@@ -24,7 +24,7 @@ function Main(props) {
       <Sidebar products={products} className="sidebar" />
       <Departments products={products}/>
       <ItemModal items={Items}/>
-      <CartPanel show={true} />
+      <CartPanel items={Items} show={true} />
     </div>
   )
 

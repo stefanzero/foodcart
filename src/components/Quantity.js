@@ -3,6 +3,9 @@ import {store} from "../context/store";
 
 export default forwardRef((props, ref) => {
 
+  const { hide } = props;
+  const hideClass = hide === false ? '' : 'hide';
+
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
   const { cart } = state;
@@ -30,9 +33,10 @@ export default forwardRef((props, ref) => {
 
   // const minus = quantity > 1 ? '-' : (<span className="fa-trash"></span>)
   const minusContent = quantity > 1 ? '-' : (<img src="/images/trash.png" alt="trash"></img>);
+  const containerClass = `quantity-container ${hideClass}`;
 
   return (
-    <div className="quantity-container hide" ref={ref} tabIndex="0">
+    <div className={containerClass} ref={ref} tabIndex="0">
       <button className="minus" onClick={() => addToCart(-1)}>{minusContent}</button>
       <div className="quantity">{quantity}</div>
       <button className="plus" onClick={() => addToCart(1)}>+</button>

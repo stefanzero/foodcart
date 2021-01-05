@@ -58,9 +58,6 @@ export default function Sidebar({products, dept_id, a_id}) {
                             <Link to={`/${aisle.href}`}>
                               <span className={aisleClass}>{aisle.name}</span>
                             </Link>
-                            {/*<a href={`/${aisle.href}`}>*/}
-                            {/*  {aisle.name}*/}
-                            {/*</a>*/}
                           </li>
                         )
                       })

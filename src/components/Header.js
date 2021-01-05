@@ -18,7 +18,11 @@ export default function Header(props) {
 
   return (
     <header className="header">
-      <span className="brand">foodcart</span>
+      <div>
+        <img className="brand-img" src="/images/grocery-store.png" alt="foodcart icon" />
+        <span className="brand">foodcart</span>
+      </div>
+
       <button className="cart-button" onClick={toggleCartPanel}>
         Order
         <img src="/images/green-cart.png" alt="shopping basket" />
