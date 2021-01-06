@@ -281,12 +281,58 @@ button.item-button:hover {
   margin-left: 5%;
 }
 
-.square1 {
-  /*background-color: lightgoldenrodyellow;*/
+.modal-form-row {
+  display: grid;
+  width: 80%;
+  margin-left: 0;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: 72px;
 }
 
-.square2 {
-  /*background-color: lightcyan;*/
+.quantity-column-1 {
+  position: relative;
+}
+
+.modal-quantity {
+  margin: 0 2em 0 0;
+}
+
+.modal-quantity-select {
+  height: 40px;
+  text-align: center;
+  text-align-last: center;
+  -moz-text-align-last: center;
+  font-size: 1.0em;
+}
+
+.modal-quantity-input-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.modal-quantity-input {
+  width: 80%;
+}
+
+.modal-button-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.modal-button-row button {
+  height: 40px;
+}
+
+.modal-incart-group {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.modal-incart-group select {
+  background-color: green;
+  color: white;
 }
 
 .modal-sections {
