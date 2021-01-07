@@ -68,6 +68,14 @@ export default function CartItem(props) {
   const path = location.pathname;
   const itemLink = `${path}?item=${item.product_id}`;
   const cartQuantity = cart.items[product_id] ? cart.items[product_id] : 0;
+  /*
+   * Remove extraneous characters from price such as "/each"
+   */
+  const priceMatch = item.price.match(/(\$[\d\.]+)/);
+  let price = item.price;
+  if (priceMatch && priceMatch.length ==2) {
+    price = priceMatch[1];
+  }
   return (
     <div className="cart-item" key={item.product_id} data-product_id={item.product_id}
       ref={containerRef}>
@@ -85,7 +93,7 @@ export default function CartItem(props) {
         </button>
       </div>
       <div className="cart-item-price">
-        {item.price}&nbsp;{item.affix}
+        {price}
       </div>
       <Quantity item={item} ref={quantityRef} />
     </div>
