@@ -29,7 +29,8 @@ export default function ItemModal(props) {
   const formRow3Ref = useRef();
   const updateGroupRef = useRef();
   const updateCartRef = useRef();
-  const inputUpdateRef = useRef();
+  const updateInputGroupRef = useRef();
+  const updateInputRef = useRef();
   const updateButtonRef = useRef();
   const show = !!parsed.item;
   const { items } = props;
@@ -50,6 +51,13 @@ export default function ItemModal(props) {
   });
 
   useEffect(() => {
+    if (inCartRef.current) {
+      if (quantity > 9) {
+        inCartRef.current.value = -3;
+      } else {
+        inCartRef.current.value = quantity;
+      }
+    }
     if (sectionRefsArray) {
       sectionRefsArray.forEach(sectionRef => {
         const {section, leftButton, rightButton} = sectionRef;
@@ -116,7 +124,7 @@ export default function ItemModal(props) {
 
   const onInputChange = (evt) => {
     const inputValue = inputRef.current.value;
-    if (inputValue > 0 && inputValue <=100) {
+    if (inputValue > 0 && inputValue <= 100) {
       buttonRef.current.removeAttribute('disabled');
     } else {
       buttonRef.current.setAttribute('disabled', 'disabled');
@@ -132,13 +140,21 @@ export default function ItemModal(props) {
       formRow2Ref.current.classList.add('hide');
     } else if (inCartRef.current.value === "-2") {
       /*
-       * TODO
+       * Custom Amount
        * Display updateInput
        */
+      updateButtonRef.current.setAttribute('disabled', 'disabled');
+      updateGroupRef.current.classList.add('hide');
+      updateGroupRef.current.classList.add('hide');
+      updateInputGroupRef.current.classList.remove('hide');
       updateCartRef.current.value = "-2";
       formRow1Ref.current.classList.add('hide');
       formRow2Ref.current.classList.add('hide');
       formRow3Ref.current.classList.remove('hide');
+      /*
+       * Disable the Update Quantity button until a valid amount is entered
+       */
+      updateButtonRef.current.setAttribute('disabled', 'disabled');
     } else {
       updateCartRef.current.value = inCartRef.current.value;
       formRow1Ref.current.classList.add('hide');
@@ -148,7 +164,23 @@ export default function ItemModal(props) {
   };
 
   const onUpdateCartChange = (evt) => {
-
+    if (updateCartRef.current.value === "-1") {
+      /*
+       * Show row1 if item has been removed from cart
+       */
+      addToCart(parseInt(-quantity));
+      selectRef.current.value = 1;
+      // updateCartRef.current.value = 1;
+      formRow1Ref.current.classList.remove('hide');
+      formRow2Ref.current.classList.add('hide');
+    } else if (updateCartRef.current.value === "-2") {
+      /*
+       * Disable the Update Quantity button until a valid amount is entered
+       */
+      updateButtonRef.current.setAttribute('disabled', 'disabled');
+      updateGroupRef.current.classList.add('hide');
+      updateInputGroupRef.current.classList.remove('hide');
+    }
   };
 
   const onSubmit = (evt) => {
@@ -167,21 +199,40 @@ export default function ItemModal(props) {
 
   const onUpdateQuantity = (evt) => {
     let deltaQuantity = 0;
-    formRow1Ref.current.classList.add('hide');
-    formRow2Ref.current.classList.remove('hide');
-    formRow3Ref.current.classList.add('hide');
+    /*
+     * -1 = remove from cart
+     * -2 = custom amount
+     */
     if (updateCartRef.current.value > 0) {
       deltaQuantity = updateCartRef.current.value - quantity;
-    } else if (updateCartRef.current.value === -1) {
+    } else if (updateCartRef.current.value === "-1") {
       /*
        * Show row1 if item has been removed from cart
        */
-      deltaQuantity = -1;
+      deltaQuantity = -quantity;
       selectRef.current.value = 1;
       formRow1Ref.current.classList.remove('hide');
       formRow2Ref.current.classList.add('hide');
+    } else if (updateCartRef.current.value === "-2") {
+      const inputValue = parseInt(updateInputRef.current.value);
+      deltaQuantity = inputValue - quantity;
     }
+    updateInputRef.current.value = '';
+    formRow1Ref.current.classList.add('hide');
+    formRow2Ref.current.classList.remove('hide');
+    formRow3Ref.current.classList.add('hide');
+    updateGroupRef.current.classList.remove('hide');
+    updateInputGroupRef.current.classList.add('hide');
     addToCart(parseInt(deltaQuantity));
+  };
+
+  const onUpdateInputChange = (evt) => {
+    const inputValue = updateInputRef.current.value;
+    if (inputValue > 0 && inputValue <= 100) {
+      updateButtonRef.current.removeAttribute('disabled');
+    } else {
+      updateButtonRef.current.setAttribute('disabled', 'disabled');
+    }
   };
 
   const addToCart = (quantity) => {
@@ -216,7 +267,7 @@ export default function ItemModal(props) {
   let updateCartValue = quantity;
   if (quantity > 9) {
     inCartValue = 0;
-    inCartOptions.push({value: -3, option: `${quantity}` in cart});
+    inCartOptions.push({value: -3, option: `${quantity} in cart`});
   }
   for (let i = 1; i <= 9; i++) {
     const inCart = i === quantity ? ' in cart' : '';
@@ -312,20 +363,29 @@ export default function ItemModal(props) {
                   </Form.Group>
                 </Form.Row>
                 <Form.Row className="modal-form-update-row hide" ref={formRow3Ref}>
-                  <Form.Group controlId="modal-update-group" className="modal-update-group"
-                              ref={updateGroupRef}>
-                    <Form.Label>Quantity</Form.Label>
-                    <Form.Control as="select" size="lg" custom ref={updateCartRef} className="modal-update-select"
-                                  onChange={onUpdateCartChange}>
-                      {
-                        inCartOptions.map(o => {
-                          return (
-                            <option value={o.value}>{o.option}</option>
-                          )
-                        })
-                      }
-                    </Form.Control>
-                  </Form.Group>
+                  <div className="quantity-column-1">
+                    <Form.Group controlId="modal-update-group" className="modal-update-group"
+                                ref={updateGroupRef}>
+                      <Form.Label>Quantity</Form.Label>
+                      <Form.Control as="select" size="lg" custom ref={updateCartRef} className="modal-update-select"
+                                    onChange={onUpdateCartChange}>
+                        {
+                          inCartOptions.map(o => {
+                            return (
+                              <option value={o.value}>{o.option}</option>
+                            )
+                          })
+                        }
+                      </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="modal-update-quantity-input" className="modal-update-quantity-input-group hide"
+                                ref={updateInputGroupRef}>
+                      <Form.Label>Quantity</Form.Label>
+                      {/*<input placeholder="Amount" onFocus="this.type='number';">*/}
+                      <Form.Control type="number" className="modal-quantity-input" ref={updateInputRef}
+                                    placeholder="Enter an amount" onChange={onUpdateInputChange}/>
+                    </Form.Group>
+                  </div>
                   <div className="modal-button-row">
                     <Button className="btn-success" onClick={onUpdateQuantity}
                             ref={updateButtonRef}>Update Quantity</Button>
