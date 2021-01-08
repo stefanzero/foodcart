@@ -1,4 +1,4 @@
-import React, {createContext, useReducer, useCallback, useContext} from 'react';
+import React, {createContext, useReducer, useCallback } from 'react';
 
 /*
  * cart and products will have other properties,
@@ -27,6 +27,10 @@ const { Provider } = store;
 
 const StateProvider = ( { children } ) => {
 
+  /*
+   * React will call the reducer an extra time if it is not memoized,
+   * since without memoization, it appears as a changed function.
+   */
   const memoizedReducer = useCallback((state, action) => {
     switch (action.type) {
       case 'addToCart':
@@ -75,27 +79,6 @@ const StateProvider = ( { children } ) => {
     }
     ;
   }, []);
-
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case 'addToCart':
-        const {product_id, quantity} = action.payload;
-        console.log(`reducer: ${product_id}`);
-        const newState = {...state};
-        const {items} = newState.cart;
-        if (!items[product_id]) {
-          items[product_id] = quantity;
-        } else {
-          items[product_id] += quantity;
-        }
-        // New quantity cannot be less than zero
-        items[product_id] = Math.max(items[product_id], 0);
-        // console.log(`new quantity: ${items[product_id]}`);
-        return newState;
-      default:
-        throw new Error();
-    };
-  };
 
   // const [state, dispatch] = useReducer(reducer, initialState);
   const [state, dispatch] = useReducer(memoizedReducer, initialState);

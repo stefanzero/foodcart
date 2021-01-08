@@ -176,6 +176,10 @@ button.item-button:hover {
   background-color: #eee;
 }
 
+button.item-button:focus {
+  outline: unset;
+}
+
 .button-span {
   font-weight: 300;
   margin-top: -0.2em;

@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useState, useEffect, useRef} from 'react';
+import React, {Fragment, useContext, useEffect, useRef} from 'react';
 
 import CartItem from "./CartItem";
 import { store } from '../context/store';
@@ -25,8 +25,6 @@ export default function CartPanel(props) {
     }
 
   });
-
-  const [hide, setHide] = useState(false);
 
   if (!show) {
     return null;

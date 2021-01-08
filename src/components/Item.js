@@ -29,24 +29,28 @@ export default function Item({item}) {
   };
 
   const quantityRef = useRef();
+  const cardRef = useRef();
 
   /*
    * Hide the quantity component when
    *   * focus is lost from the quantity component
    *   * the window is scrolled
    */
-  const hideComponent = (evt) => {
+  const hideComponent = () => {
     if (quantityRef.current && !quantityRef.current.classList.contains('hide')) {
       quantityRef.current.classList.add('hide');
     }
   };
   useEffect(() => {
+    cardRef.current.addEventListener('mouseleave', () => {
+      console.log('mouseleave', item.name);
+      hideComponent();
+    });
     if (quantityRef && quantityRef.current) {
-      const quantityContainer = quantityRef.current;
-      quantityRef.current.addEventListener('blur', hideComponent);
       document.addEventListener('scroll', hideComponent);
     }
-  }, document.removeEventListener('scroll', hideComponent));
+    return document.removeEventListener('scroll', hideComponent);
+  });
 
   // const itemLink = `/items/item_${item.product_id}`;
   const { product_id } = item;
@@ -55,7 +59,7 @@ export default function Item({item}) {
   const cartQuantity = cart.items[product_id] ? cart.items[product_id] : 0;
   const buttonSpan = cartQuantity ? cartQuantity : '+';
   return (
-    <Card className="item" key={item.product_id} data-product_id={item.product_id}>
+    <Card className="item" key={item.product_id} data-product_id={item.product_id} ref={cardRef}>
       <Link to={itemLink} className="item-img">
         <img src={item.src} alt={item.name} />
       </Link>

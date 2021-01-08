@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useRef, useEffect } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import {store} from "../context/store";
 
 export default forwardRef((props, ref) => {
@@ -36,7 +36,7 @@ export default forwardRef((props, ref) => {
   const containerClass = `quantity-container ${hideClass}`;
 
   return (
-    <div className={containerClass} ref={ref} tabIndex="0">
+    <div className={containerClass} ref={ref} tabIndex="0" data-product_id={item.product_id}>
       <button className="minus" onClick={() => addToCart(-1)}>{minusContent}</button>
       <div className="quantity">{quantity}</div>
       <button className="plus" onClick={() => addToCart(1)}>+</button>

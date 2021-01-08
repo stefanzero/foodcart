@@ -247,7 +247,7 @@ export default function ItemModal(props) {
 
   if (!item) {
     return (
-      <Modal show={show} onHide={handleClose} className="item-modal">
+      <Modal show={show} onHide={handleClose} className="item-modal" controlId="item-modal">
         <Modal.Header closeButton>
           <Modal.Title>Product Not Found</Modal.Title>
         </Modal.Header>
@@ -264,7 +264,6 @@ export default function ItemModal(props) {
   const hideQuantity2 = quantity === 0 ? 'hide' : '';
   const inCartOptions = [];
   let inCartValue = quantity;
-  let updateCartValue = quantity;
   if (quantity > 9) {
     inCartValue = 0;
     inCartOptions.push({value: -3, option: `${quantity} in cart`});
@@ -351,9 +350,9 @@ export default function ItemModal(props) {
                     <Form.Control as="select" size="lg" custom ref={inCartRef} className="modal-incart-select"
                                   value={inCartValue} onChange={onInCartChange}>
                       {
-                        inCartOptions.map(o => {
+                        inCartOptions.map((o, i) => {
                           return (
-                            <option value={o.value}>{o.option}</option>
+                            <option value={o.value} key={i}>{o.option}</option>
                           )
                         })
                       }
@@ -370,9 +369,9 @@ export default function ItemModal(props) {
                       <Form.Control as="select" size="lg" custom ref={updateCartRef} className="modal-update-select"
                                     onChange={onUpdateCartChange}>
                         {
-                          inCartOptions.map(o => {
+                          inCartOptions.map((o, i) => {
                             return (
-                              <option value={o.value}>{o.option}</option>
+                              <option value={o.value} key={i}>{o.option}</option>
                             )
                           })
                         }
