@@ -51,6 +51,9 @@ export default function ItemModal(props) {
   });
 
   useEffect(() => {
+    if (selectRef.current) {
+      selectRef.current.value = 1;
+    }
     if (inCartRef.current) {
       if (quantity > 9) {
         inCartRef.current.value = -3;
@@ -136,8 +139,11 @@ export default function ItemModal(props) {
       addToCart(-parseInt(quantity));
       selectRef.current.value = "1";
       inCartRef.current.value = "1";
+      selectGroupRef.current.classList.remove('hide');
+      inputGroupRef.current.classList.add('hide');
       formRow1Ref.current.classList.remove('hide');
       formRow2Ref.current.classList.add('hide');
+      formRow3Ref.current.classList.add('hide');
     } else if (inCartRef.current.value === "-2") {
       /*
        * Custom Amount
@@ -210,6 +216,7 @@ export default function ItemModal(props) {
        * Show row1 if item has been removed from cart
        */
       deltaQuantity = -quantity;
+      inputRef.current.value = 1;
       selectRef.current.value = 1;
       formRow1Ref.current.classList.remove('hide');
       formRow2Ref.current.classList.add('hide');

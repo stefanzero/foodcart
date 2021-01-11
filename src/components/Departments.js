@@ -5,7 +5,7 @@ import Item from "./Item";
 export default function Departments(props) {
 
   const itemsContainer = useRef();
-  const products = props.products;
+  const { products, items } = props;
   const location = useLocation();
   const navigate = useNavigate();
   const dept_match = location.pathname.match(/departments\/(\d+)($|\/)/);
@@ -36,15 +36,21 @@ export default function Departments(props) {
    * There are occasional duplicate items in aisle.order
    */
   const uniqueItems = [...new Set(aisle.order)];
-  const items = uniqueItems.map(id => {
-    return aisle.items[id]
+  /*
+   * Create array in order, and check that the product_id also exists
+   * in the items props
+   */
+  const aisleItems = uniqueItems.map(id => {
+    return items[id] && aisle.items[id]
+  }).filter(item => {
+    return !!item;
   });
 
   // console.log(`aisle: ${aisle.name}`);
   return (
     <div className="items" ref={itemsContainer}>
       {
-        items.map(item => {
+        aisleItems.map(item => {
           // console.log(`item: ${item.name}`);
           return (
             <Item item={item} key={item.product_id}/>

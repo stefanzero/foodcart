@@ -237,6 +237,10 @@ button.item-button:focus {
   transform: rotateZ(90deg);
 }
 
+.department-button:focus {
+  outline: unset;
+}
+
 .modal-dialog.item-modal {
   width: 80%;
   margin-left: 10%;

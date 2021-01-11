@@ -22,7 +22,7 @@ function Main(props) {
   const mainContent = (
     <div className="main container-fluid">
       <Sidebar products={products} className="sidebar" />
-      <Departments products={products}/>
+      <Departments products={products} items={Items} />
       <ItemModal items={Items}/>
       <CartPanel items={Items} show={true} />
     </div>

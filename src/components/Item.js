@@ -43,7 +43,7 @@ export default function Item({item}) {
   };
   useEffect(() => {
     cardRef.current.addEventListener('mouseleave', () => {
-      console.log('mouseleave', item.name);
+      // console.log('mouseleave', item.name);
       hideComponent();
     });
     if (quantityRef && quantityRef.current) {
