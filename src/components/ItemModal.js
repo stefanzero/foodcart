@@ -17,6 +17,7 @@ export default function ItemModal(props) {
   const handleClose = () => {
     navigate(window.location.pathname);
   };
+  const formRef = useRef();
   const buttonRef = useRef();
   const selectRef = useRef();
   const selectGroupRef = useRef();
@@ -50,9 +51,44 @@ export default function ItemModal(props) {
     }
   });
 
+  let newItem = true;
+  if (formRef.current && item) {
+    const lastId = formRef.current.dataset.product_id;
+    if (lastId === item.product_id) {
+      newItem = false;
+    }
+  }
   useEffect(() => {
+    /*
+    if (newItem) {
+      console.log('item changed')
+    }
+    if (item) {
+      console.log(item.name)
+    } else {
+      console.log('no item');
+    }
+     */
     if (selectRef.current) {
       selectRef.current.value = 1;
+    }
+    if (selectGroupRef.current) {
+      selectGroupRef.current.classList.remove('hide');
+    }
+    if (inputGroupRef.current) {
+      inputGroupRef.current.classList.add('hide');
+    }
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+    if (buttonRef.current) {
+      buttonRef.current.removeAttribute('disabled');
+    }
+    if (formRow3Ref.current) {
+      formRow3Ref.current.classList.add('hide');
+    }
+    if (newItem && updateInputRef.current) {
+      updateInputRef.current.value = '';
     }
     if (inCartRef.current) {
       if (quantity > 9) {
@@ -141,6 +177,7 @@ export default function ItemModal(props) {
       inCartRef.current.value = "1";
       selectGroupRef.current.classList.remove('hide');
       inputGroupRef.current.classList.add('hide');
+      inputRef.current.value = '';
       formRow1Ref.current.classList.remove('hide');
       formRow2Ref.current.classList.add('hide');
       formRow3Ref.current.classList.add('hide');
@@ -267,8 +304,8 @@ export default function ItemModal(props) {
   const { product_id } = item;
   const productNum = parseInt(product_id);
   const quantity = cart.items[productNum] ? cart.items[productNum] : 0;
-  const hideQuantity1 = quantity === 0 ? '' : 'hide';
-  const hideQuantity2 = quantity === 0 ? 'hide' : '';
+  const hideSelectGroup = quantity === 0 ? '' : 'hide';
+  const hideInCartGroup = quantity === 0 ? 'hide' : '';
   const inCartOptions = [];
   let inCartValue = quantity;
   if (quantity > 9) {
@@ -283,7 +320,8 @@ export default function ItemModal(props) {
   inCartOptions.push({value: -1, option: 'Remove from cart'});
 
   return (
-    <Modal show={show} onHide={handleClose} dialogClassName="item-modal">
+    <Modal show={show} onHide={handleClose} dialogClassName="item-modal"
+           data-product_id={item.product_id}>
       <Modal.Header closeButton>
         {/*<Modal.Title>Modal heading</Modal.Title>*/}
         <p>
@@ -318,8 +356,8 @@ export default function ItemModal(props) {
               <p className="modal-price">
                 {item.price}
               </p>
-              <Form onSubmit={onSubmit} className="modal-form">
-                <Form.Row className={`modal-form-row ${hideQuantity1}`} ref={formRow1Ref}>
+              <Form onSubmit={onSubmit} className="modal-form" ref={formRef} data-product_id={item.product_id}>
+                <Form.Row className={`modal-form-row ${hideSelectGroup}`} ref={formRow1Ref}>
                   <div className="quantity-column-1">
                     <Form.Group controlId="modal-quantity" className="modal-quantity"
                                 ref={selectGroupRef}>
@@ -350,7 +388,7 @@ export default function ItemModal(props) {
                             ref={buttonRef}>+ Add To Cart</Button>
                   </div>
                 </Form.Row>
-                <Form.Row className={`modal-form-row ${hideQuantity2}`} ref={formRow2Ref}>
+                <Form.Row className={`modal-form-row ${hideInCartGroup}`} ref={formRow2Ref}>
                   <Form.Group controlId="modal-incart-group" className="modal-incart-group"
                               ref={inCartGroupRef}>
                     <Form.Label>Quantity</Form.Label>
@@ -363,8 +401,6 @@ export default function ItemModal(props) {
                           )
                         })
                       }
-                      {/*<option value="1">{quantity} in cart</option>*/}
-                      {/*<option value="-1">remove from cart</option>*/}
                     </Form.Control>
                   </Form.Group>
                 </Form.Row>

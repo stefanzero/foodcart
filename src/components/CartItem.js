@@ -39,8 +39,6 @@ export default function CartItem(props) {
     }
   };
   useEffect(() => {
-    console.log(`CartItem.useEffect: ${item.name}`);
-    console.log(`activeElement: ${document.activeElement}`);
     if (quantityRef && quantityRef.current) {
       document.addEventListener('scroll', hideComponent);
     }
