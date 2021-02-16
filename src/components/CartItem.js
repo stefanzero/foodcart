@@ -7,45 +7,35 @@ export default function CartItem(props) {
   const { item } = props;
   const location = useLocation();
   const globalState = useContext(store);
-  const { state } = globalState;
-  const { cart } = state;
+  const { state, dispatch } = globalState;
+  const { cart, cartPanel } = state;
+  const { product_id_selected } = cartPanel;
 
-  /*
-   * Display <Quantity> only after the number button is clicked
-   * First, hide all <Quantity> components
-   */
-  const show = () => {
-    const quantities = document.querySelectorAll('.cart-item .quantity-container');
-    quantities.forEach(q => {
-      q.classList.add('hide');
+  const setProductIdSelected = () => {
+    dispatch({
+      type: 'selectProductId',
+      payload: {
+        product_id_selected: product_id
+      }
     })
-    if (cartQuantity && quantityRef.current) {
-      quantityRef.current.classList.remove('hide');
-      return;
+  };
+
+  const unsetProductIdSelected = () => {
+    if (product_id_selected) {
+      dispatch({
+        type: 'selectProductId',
+        payload: {
+          product_id_selected: null
+        }
+      })
     }
   };
 
   const containerRef = useRef();
   const quantityRef = useRef();
 
-  /*
-   * Hide the quantity component when
-   *   * focus is lost from the quantity component
-   *   * the window is scrolled
-   */
-  const hideComponent = (evt) => {
-    if (quantityRef.current && !quantityRef.current.classList.contains('hide')) {
-      quantityRef.current.classList.add('hide');
-    }
-  };
   useEffect(() => {
-    if (quantityRef && quantityRef.current) {
-      document.addEventListener('scroll', hideComponent);
-    }
-    /*
-     * Remove scroll listener on unmount
-     */
-    // return document.removeEventListener('scroll', hideComponent);
+    containerRef.current.addEventListener('mouseleave', unsetProductIdSelected);
   });
 
   const { product_id } = item;
@@ -60,6 +50,7 @@ export default function CartItem(props) {
   if (priceMatch && priceMatch.length === 2) {
     price = priceMatch[1];
   }
+  const showQuantity = product_id_selected === product_id;
   return (
     <div className="cart-item" key={item.product_id} data-product_id={item.product_id}
       ref={containerRef}>
@@ -72,14 +63,14 @@ export default function CartItem(props) {
         <span className="item-name">{item.name}</span>
       </div>
       <div className="cart-item-quantity">
-        <button className="cart-item-button" onClick={show}>
+        <button className="cart-item-button" onClick={setProductIdSelected}>
           <span className="cart-button-span">{cartQuantity}</span>
         </button>
       </div>
       <div className="cart-item-price">
         {price}
       </div>
-      <Quantity item={item} ref={quantityRef} />
+      { showQuantity && <Quantity item={item} ref={quantityRef} hide={false} />}
     </div>
   )
 }

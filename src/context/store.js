@@ -17,7 +17,8 @@ const initialState = {
     }
   },
   cartPanel: {
-    show: false
+    show: false,
+    product_id_selected: null
   }
 };
 
@@ -72,6 +73,15 @@ const StateProvider = ( { children } ) => {
           cartPanel: {
             ...state.cartPanel,
             show: !state.cartPanel.show
+          }
+        };
+      case 'selectProductId':
+        const {product_id_selected} = action.payload;
+        return {
+          ...state,
+          cartPanel: {
+            ...state.cartPanel,
+            product_id_selected
           }
         };
       default:

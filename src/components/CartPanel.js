@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useEffect, useRef} from 'react';
+import React, {Fragment, useContext, useEffect, useRef, useState} from 'react';
 
 import CartItem from "./CartItem";
 import { store } from '../context/store';
