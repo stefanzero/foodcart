@@ -295,7 +295,7 @@ button.item-button:focus {
 
 .modal-form-row {
   display: grid;
-  width: 90%;
+  width: 100%;
   margin-left: 0;
   grid-template-columns: 1.5fr 1fr;
   grid-template-rows: 72px;
@@ -314,15 +314,21 @@ button.item-button:focus {
 }
 
 .modal-quantity {
-  margin: 0 2em 0 0;
+  display: grid;
+  margin: 0 0;
 }
 
 .modal-quantity-select, .modal-incart-select, .modal-update-select {
+  width: 90%;
   height: 40px;
   text-align: center;
   text-align-last: center;
   -moz-text-align-last: center;
   font-size: 1.0em;
+}
+
+.modal-incart-select {
+  width: 100%;
 }
 
 .modal-quantity-input-group {

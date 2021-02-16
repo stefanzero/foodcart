@@ -93,6 +93,8 @@ export default function ModalQuantity(props) {
     // console.log('new item');
     if (cartQuantity === 0) {
       setDisplayState(0);
+    } else {
+      setDisplayState(2);
     }
   }
 
@@ -160,7 +162,7 @@ export default function ModalQuantity(props) {
       <Form.Row className={``}>
         <Form.Group controlId="modal-quantity" className="modal-quantity modal-incart-group">
           <Form.Label>Quantity</Form.Label>
-          <Form.Control as="select" size="lg" custom className="modal-quantity-select"
+          <Form.Control as="select" size="lg" custom className="modal-incart-select"
                         ref={quantityRef} onChange={onSelectChange2} value={value}>
             {inCartOptions.map(o => (
               <option value={o.value} key={o.value}>{o.option}</option>
@@ -187,10 +189,10 @@ export default function ModalQuantity(props) {
     updateOptions.push({value: 'custom', option: 'Custom Amount'});
     updateOptions.push({value: 'remove', option: 'Remove from cart'});
     return (
-      <Form.Row className={``}>
+      <Form.Row className={`modal-form-row`}>
         <Form.Group controlId="modal-quantity" className="modal-quantity">
           <Form.Label>Quantity</Form.Label>
-          <Form.Control as="select" size="lg" custom className="modal-quantity-select"
+          <Form.Control as="select" size="lg" custom className="modal-update-select"
                         ref={quantityRef} onChange={onSelectChange3} value={value}>
             {updateOptions.map(o => (
               <option value={o.value} key={o.value}>{o.option}</option>
